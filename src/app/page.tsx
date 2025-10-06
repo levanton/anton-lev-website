@@ -1,55 +1,20 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import { Code2, Layers, Zap, Github, Linkedin, Mail, Sparkles, Play, Pause, User } from 'lucide-react';
+import { useState } from 'react';
+import { Code2, Layers, Zap, Github, Linkedin, Mail, User } from 'lucide-react';
 import ChatInterface from '../components/ChatInterface';
 
 export default function Home() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [particles, setParticles] = useState<Array<{ id: number; x: number; y: number }>>([]);
   const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
-  const [isMatrixActive, setIsMatrixActive] = useState(true);
-  const [matrixColumns, setMatrixColumns] = useState<Array<{ id: number; left: number; delay: number; duration: number }>>([]);
-  const containerRef = useRef<HTMLDivElement>(null);
 
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
-
-  useEffect(() => {
-    const columns = Array.from({ length: 15 }, (_, i) => ({
-      id: i,
-      left: Math.random() * 100,
-      delay: Math.random() * 5,
-      duration: 10 + Math.random() * 10,
-    }));
-    setMatrixColumns(columns);
-  }, []);
 
 
   const handleCardClick = (skill: string) => {
     setSelectedSkill(selectedSkill === skill ? null : skill);
   };
 
-  const createParticle = (e: React.MouseEvent) => {
-    const rect = containerRef.current?.getBoundingClientRect();
-    if (!rect) return;
-
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const id = Date.now();
-
-    setParticles(prev => [...prev, { id, x, y }]);
-    setTimeout(() => {
-      setParticles(prev => prev.filter(p => p.id !== id));
-    }, 1000);
-  };
 
 
   const skills = [
@@ -77,66 +42,12 @@ export default function Home() {
   ];
 
   return (
-    <div
-      ref={containerRef}
-      className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white overflow-hidden relative"
-      onClick={createParticle}
-    >
-      {isMatrixActive && (
-        <div className="fixed inset-0 z-0 pointer-events-none opacity-20">
-          {matrixColumns.map((col) => (
-            <div
-              key={col.id}
-              className="absolute top-0 animate-matrix-fall font-mono text-green-400 text-xs"
-              style={{
-                left: `${col.left}%`,
-                animationDelay: `${col.delay}s`,
-                animationDuration: `${col.duration}s`,
-              }}
-            >
-              {Array.from({ length: 20 }, (_, i) => (
-                <div key={i} className="opacity-70">
-                  {String.fromCharCode(33 + Math.floor(Math.random() * 94))}
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
-      )}
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white overflow-hidden relative">
 
-      <div
-        className="pointer-events-none fixed inset-0 z-30 transition-opacity duration-300"
-        style={{
-          background: `radial-gradient(circle 200px at ${mousePosition.x}px ${mousePosition.y}px, rgba(59, 130, 246, 0.15), transparent 80%)`
-        }}
-      />
 
-      {particles.map(particle => (
-        <div
-          key={particle.id}
-          className="absolute pointer-events-none animate-particle z-40"
-          style={{
-            left: particle.x,
-            top: particle.y,
-          }}
-        >
-          <Sparkles className="w-4 h-4 text-blue-400" />
-        </div>
-      ))}
 
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-900/20 via-transparent to-transparent"></div>
 
-      <button
-        onClick={() => setIsMatrixActive(!isMatrixActive)}
-        className="fixed top-6 left-6 z-50 p-3 bg-slate-800/80 backdrop-blur-sm border border-slate-700/50 rounded-xl hover:border-blue-500/50 transition-all duration-300 group"
-        aria-label="Toggle Matrix"
-      >
-        {isMatrixActive ? (
-          <Pause className="w-5 h-5 group-hover:text-blue-400 transition-colors" />
-        ) : (
-          <Play className="w-5 h-5 group-hover:text-blue-400 transition-colors" />
-        )}
-      </button>
 
       <div className="relative min-h-screen flex">
         <div className="w-full lg:w-1/2 p-6 lg:p-12 flex items-center justify-center overflow-y-auto">
