@@ -9,19 +9,26 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^2.0.42",
+    "@ai-sdk/react": "^2.0.60",
+    "@supabase/supabase-js": "^2.58.0",
+    "ai": "^5.0.60",
+    "i": "^0.3.7",
+    "lucide-react": "^0.544.0",
+    "next": "15.5.4",
+    "npm": "^11.6.1",
     "react": "19.1.0",
-    "react-dom": "19.1.0",
-    "next": "15.5.4"
+    "react-dom": "19.1.0"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4.1.14",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4",
     "eslint": "^9",
     "eslint-config-next": "15.5.4",
-    "@eslint/eslintrc": "^3"
+    "tailwindcss": "^4.1.14",
+    "typescript": "^5"
   }
 }
